@@ -91,4 +91,5 @@ def part_two(lines):
 
 path = r'Day_4\input.txt'
 lines = read_input(path)
-print(part_two(lines))
+print("Answer part 1: ", part_one(lines))
+print("Answer part 2: ", part_two(lines))
