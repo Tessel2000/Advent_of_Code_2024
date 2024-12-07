@@ -56,6 +56,7 @@ def next_obstacle(current_location, obstacles, visited, direction):
     new_direction = rotate_90(direction)
     return True, visited, new_direction, new_location
 
+
 def part_one(obstacles, visited, start_location, direction):
     current_location = start_location
     Not_finished = True
@@ -90,11 +91,24 @@ def part_two(obstacles, visited, start_location, direction, visited_old):
             else:
                 temp_obstacles = obstacles.copy()
                 temp_visited = visited.copy()
-                temp_direction = direction.copy()
                 temp_obstacles[i,j] = 1
-                if check_loop(temp_obstacles, temp_visited, start_location, temp_direction):
-                    found_loops.append((i,j))
+                if check_loop(temp_obstacles, temp_visited, start_location, direction):
                     ans += 1
+    return ans
+
+
+def part_two_opt(obstacles, visited, start_location, direction, visited_old):
+    ans = 0
+    positions_to_check = [
+    (i, j) for i in range(obstacles.shape[0]) for j in range(obstacles.shape[1])
+    if obstacles[i, j] == 0 and visited_old[i, j] == 1]
+
+    for i, j in tqdm(positions_to_check):
+        temp_obstacles = obstacles.copy()
+        temp_visited = visited.copy()
+        temp_obstacles[i,j] = 1
+        if check_loop(temp_obstacles, temp_visited, start_location, direction):
+            ans += 1
     return ans
 
 
@@ -103,7 +117,7 @@ obstacles, visited, start_location, direction = read_input(path)
 
 ans1, visited_old = part_one(obstacles, visited, start_location, direction)
 print("Ans 1:", ans1)
-ans2 = part_two(obstacles, visited, start_location, direction, visited_old)
+ans2 = part_two_opt(obstacles, visited, start_location, direction, visited_old)
 print("Ans 2: ", ans2)
 
 
